@@ -21,7 +21,9 @@ export default function Navbar({open}){
         transition: '0.5s ease-out',...(open && marginLeftStyle)}}>
             <div style={{marginRight: 60, cursor: 'pointer'}}>log in</div>
             <div style={{marginRight: 30, cursor: 'pointer'}}>sign in</div>
-            <div style={{marginRight: 30, cursor: 'pointer'}}><Link to='/search' style={{textDecoration: 'none', color: 'gray'}}>search</Link></div>
+            {/*<div style={{marginRight: 30, cursor: 'pointer'}}><Link to='/search' style={{textDecoration: 'none', color: 'gray'}}>search</Link></div>
+            <div style={{marginRight: 30, cursor: 'pointer'}}><Link to='/restaurants' style={{textDecoration: 'none', color: 'gray'}}>restaurants</Link></div>
+        <div style={{marginRight: 30, cursor: 'pointer'}}><Link to='/home' style={{textDecoration: 'none', color: 'gray'}}>home</Link></div>*/}
         </div>
     )
 }

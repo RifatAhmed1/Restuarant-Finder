@@ -1,91 +1,130 @@
+import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { getSearchData } from "../api/restaurants.api";
 
-const fakeData = [
-  {
-    name: "one",
-    borough: "sylhet",
-    cuisine: "rice",
+const StyledPage = styled("div")({
+  display: "flex",
+  width: "100%",
+  flexDirection: "column",
+  justifyContent: "center",
+  backgroundColor: "white",
+});
+
+const StyledSearchField = styled("div")({
+  backgroundColor: "white",
+  width: "max-content",
+  borderRadius: 0,
+  padding: 10,
+  marginTop: 20,
+  border: "1px solid silver",
+  display: "flex",
+  alignSelf: "center",
+});
+
+const Input = styled("input")({
+  outlineWidth: 0,
+  border: "none",
+  textAlign: "center",
+});
+
+const StyledButton = styled("button")({
+  backgroundColor: "wheat",
+  border: "none",
+  color: "gray",
+  padding: 4,
+  cursor: "pointer",
+  transition: "all linear 0.1s",
+  "&:hover": {
+    color: "white",
   },
-  {
-    name: "two",
-    borough: "sylhet",
-    cuisine: "fish",
+  "&:active": {
+    color: "black",
+    backgroundColor: "white",
   },
-  {
-    name: "three",
-    borough: "dhaka",
-    cuisine: "fish",
+});
+
+const SearchTableContainer = styled("div")({
+  display: "flex",
+  flexDirection: "column",
+  paddingLeft: 20,
+  paddingRight: 60,
+});
+
+const Table = styled("table")({
+  width: "100%",
+  backgroundColor: "white",
+  WebkitBorderHorizontalSpacing: 0,
+  WebkitBorderVerticalSpacing: 2,
+  "&> tbody": {
+    "& > tr": {
+      ":nth-of-type(2n+1)": {
+        backgroundColor: "wheat",
+      },
+      "& > td": {
+        padding: 10,
+        minWidth: 150,
+        maxWidth: 200,
+      },
+    },
   },
-  {
-    name: "four",
-    borough: "rice",
-    cuisine: "rice",
-  },
-  {
-    name: "five",
-    borough: "ctg",
-    cuisine: "rice",
-  },
-];
+});
+
+const Divider = styled("div")({
+  borderLeft: "1px solid gray",
+});
 
 export default function Search() {
-  const [searchItem, setSearchItem] = useState("");
+  const initVal = {
+    _borough: "",
+    _cuisine: "",
+  };
+
+  const [searchItem, setSearchItem] = useState(initVal);
+  const { _borough, _cuisine } = searchItem;
   const [filtered, setFiltered] = useState([]);
 
-  const S = async (borough) => {
-    const res = await getSearchData((borough = searchItem));
+  const S = async () => {
+    const res = await getSearchData(searchItem._borough, searchItem._cuisine);
     setFiltered(res.data);
+    console.log(filtered.length);
   };
 
   const onValueChange = (e) => {
-    setSearchItem(e.target.value);
+    setSearchItem({ ...searchItem, [e.target.name]: e.target.value });
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "white",
-          width: "max-content",
-          borderRadius: 999,
-          padding: 20,
-          border: "1px solid gray",
-        }}
-      >
-        <input
+    <StyledPage>
+      <StyledSearchField>
+        <Input
           type='text'
           placeholder='borough'
           onChange={(e) => onValueChange(e)}
-          style={{ outlineWidth: 0, border: "none" }}
+          name='_borough'
+          value={_borough}
         />
-        <button
-          onClick={() => S()}
-          style={{
-            backgroundColor: "white",
-            borderLeft: "1px solid gray",
-            borderRight: "none",
-            borderTop: "none",
-            borderBottom: "none",
-            color: "gray",
-          }}
-        >
+        <Divider />
+        <Input
+          type='text'
+          placeholder='cuisine'
+          onChange={(e) => onValueChange(e)}
+          name='_cuisine'
+          value={_cuisine}
+        />
+        {/*<Divider />*/}
+        <StyledButton onClick={() => S()} style={{}}>
           search
-        </button>
-      </div>
+        </StyledButton>
+      </StyledSearchField>
       {filtered.length !== 0 ? (
-        <div>
-          <div>{`${filtered.length} ${
-            filtered.length === 1 ? "result" : "results"
-          } found`}</div>
-          <table>
+        <SearchTableContainer>
+          {console.log(filtered.length)}
+          <div>
+            {`${filtered.length} ${
+              filtered.length === 1 ? "result" : "results"
+            } found`}
+          </div>
+          <Table>
             <tbody>
               <tr>
                 <td>name</td>
@@ -94,8 +133,7 @@ export default function Search() {
               </tr>
               {filtered.map((item) => {
                 return (
-                  <tr key={item.name}>
-                    {console.log(searchItem, filtered)}
+                  <tr key={item.restaurant_id}>
                     <td>{item.name}</td>
                     <td>{item.borough}</td>
                     <td>{item.cuisine}</td>
@@ -103,11 +141,11 @@ export default function Search() {
                 );
               })}
             </tbody>
-          </table>
-        </div>
+          </Table>
+        </SearchTableContainer>
       ) : (
         <div>no results</div>
       )}
-    </div>
+    </StyledPage>
   );
 }
