@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { getSearchData } from "../api/restaurants.api";
+import { useNavigate } from "react-router-dom";
 
 const StyledPage = styled("div")({
   display: "flex",
@@ -55,6 +56,7 @@ const Table = styled("table")({
   backgroundColor: "white",
   WebkitBorderHorizontalSpacing: 0,
   WebkitBorderVerticalSpacing: 2,
+  cursor: "pointer",
   "&> tbody": {
     "& > tr": {
       ":nth-of-type(2n+1)": {
@@ -74,6 +76,12 @@ const Divider = styled("div")({
 });
 
 export default function Search() {
+  let navigate = useNavigate();
+
+  const handletrClick = (id) => {
+    navigate(`/restaurants/${id}`);
+  };
+
   const initVal = {
     _borough: "",
     _cuisine: "",
@@ -127,13 +135,16 @@ export default function Search() {
           <Table>
             <tbody>
               <tr>
-                <td>name</td>
-                <td>borough</td>
-                <td>cuisine</td>
+                <td style={{ fontWeight: 600 }}>Name</td>
+                <td style={{ fontWeight: 600 }}>Borough</td>
+                <td style={{ fontWeight: 600 }}>Cuisine</td>
               </tr>
               {filtered.map((item) => {
                 return (
-                  <tr key={item.restaurant_id}>
+                  <tr
+                    key={item.restaurant_id}
+                    onClick={() => handletrClick(item.restaurant_id)}
+                  >
                     <td>{item.name}</td>
                     <td>{item.borough}</td>
                     <td>{item.cuisine}</td>
@@ -144,7 +155,7 @@ export default function Search() {
           </Table>
         </SearchTableContainer>
       ) : (
-        <div>no results</div>
+        <div style={{ paddingLeft: 20 }}>no results</div>
       )}
     </StyledPage>
   );

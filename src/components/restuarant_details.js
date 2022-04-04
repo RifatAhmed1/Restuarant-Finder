@@ -16,6 +16,7 @@ export default function RestuarantDetails() {
         },
         "& > td": {
           padding: 10,
+          width: "calc(100% / 2)",
         },
       },
     },
@@ -23,21 +24,12 @@ export default function RestuarantDetails() {
 
   const params = useParams();
   const _restaurant_id = params.restaurant_id;
-  const [_data, setData] = useState({});
-  const [address, setAddress] = useState({
-    building: "",
-    street: "",
-  });
+  const [_data, setData] = useState("");
 
   const getRestaurantDetails = async (restaurant_id) => {
     const res = await getOneData(restaurant_id);
     setData(res.data);
-    setAddress({
-      building: res.data.address.building,
-      street: res.data.address.street,
-    });
     console.log(res.data);
-    console.log(address);
   };
   useEffect(() => {
     getRestaurantDetails(_restaurant_id);
@@ -45,31 +37,33 @@ export default function RestuarantDetails() {
   }, [_restaurant_id]);
 
   return (
-    <div style={{ paddingLeft: 20, paddingRight: 60 }}>
-      <div>Details</div>
+    <div style={{ padding: "60px 60px 0px 20px" }}>
+      <div style={{ height: 60 }}>Details</div>
       <Table>
         <tbody>
           <tr>
-            <td>name</td>
-            <td>{_data.name}</td>
+            <td>Name</td>
+            <td>{_data.name ? _data.name : "loading..."}</td>
           </tr>
           <tr>
             <td>ID</td>
-            <td>{_data.restaurant_id}</td>
+            <td>{_data.restaurant_id ? _data.restaurant_id : "loading..."}</td>
           </tr>
           <tr>
-            <td>address</td>
+            <td>Address</td>
             <td>
-              building no. {address.building}, {address.street}
+              {_data.address
+                ? `Building no. ${_data?.address?.building}, ${_data?.address?.street}`
+                : "loading..."}
             </td>
           </tr>
           <tr>
-            <td>borough</td>
-            <td>{_data.borough}</td>
+            <td>Borough</td>
+            <td>{_data.borough ? _data.borough : "loading..."}</td>
           </tr>
           <tr>
-            <td>cuisine</td>
-            <td>{_data.cuisine}</td>
+            <td>Cuisine</td>
+            <td>{_data.cuisine ? _data.cuisine : "loading..."}</td>
           </tr>
         </tbody>
       </Table>

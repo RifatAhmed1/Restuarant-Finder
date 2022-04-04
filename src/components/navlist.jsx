@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
 import { NavLink as RouterLink, matchPath, useLocation } from "react-router-dom";
 
 const data = [
@@ -27,13 +26,17 @@ const StyledUL = styled('ul')({
 function NavItem({item, active}){
     const isActiveRoot = active(item.path);
     const {title, path} = item;
-    
-    const activeRootStyle = {
-        color: 'black',
-        fontWeight: 900
-    }
+
     return (
-        <li style={{paddingLeft: '60px',width: '100%', height: 25, backgroundColor: 'wheat'}}><StyledRouterLink style={{ ...(isActiveRoot && activeRootStyle)}} to={path}>{title}</StyledRouterLink></li>
+        <li style={{padding:'10px 10px 10px 60px',width: '100%', height: 25, backgroundColor: 'wheat'}}>
+            <StyledRouterLink 
+                style={{ ...isActiveRoot && {
+                    color: 'black',
+                    fontWeight: 900}}} 
+                to={path}>
+                    {title}
+            </StyledRouterLink>
+        </li>
     )
 }
 

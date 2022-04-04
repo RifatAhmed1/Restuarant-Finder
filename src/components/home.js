@@ -1,17 +1,22 @@
-import { useEffect, useState } from "react";
-import { getLength } from "../api/restaurants.api";
+import styled from "@emotion/styled";
 
 export default function Home() {
-  const [count, setCount] = useState(0);
-  const getCount = async () => {
-    const res = await getLength();
-    setCount(res.data.length);
-    console.log(res.data.length);
-  };
+  const StyledContainer = styled("div")({
+    padding: "60px 60px 0px 20px",
+  });
 
-  //useEffect(() => {
-  //  getCount();
-  //}, []);
-
-  return <div>Welcome!</div>;
+  return (
+    <StyledContainer>
+      <h1>Welcome!</h1>
+      <p>
+        This is a restaurant finder app created on top of MongoDB's sample data.
+        <br />
+        <br />
+        To browse details of all resturants click on "Browse".
+        <br />
+        <br /> To search a particular restuarant information click on "Search".
+        <br /> (*Searching is case-sensitive for this demo.)
+      </p>
+    </StyledContainer>
+  );
 }

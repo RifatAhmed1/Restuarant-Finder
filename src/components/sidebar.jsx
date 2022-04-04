@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Navlist from "./navlist";
+import { IoIosArrowBack,IoIosArrowForward } from 'react-icons/io'
 
 const SidebarContainer = styled('div')({
     height: '100vh', 
@@ -8,23 +9,38 @@ const SidebarContainer = styled('div')({
     display: 'flex', flexDirection:'column', 
     alignItems: 'center', 
     justifyItems: 'flex-start', 
-    width: 239, 
-    transition: '0.5s ease-out',
+    width: '239px',
 })
 
 const LogoContainer = styled('div')({
-    height: 60, 
+    height: 40,
+    width: 40,
+    marginBottom: 10,
+    marginTop: 10, 
     textAlign: 'start', 
-    cursor: "pointer"
+    cursor: "pointer",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 999,
+    backgroundColor: "wheat"
+
 })
 export default function Sidebar({open, setOpen}){    
-    const minimizedStyle = {
-        width: 59,
-    }
     return(
-        <SidebarContainer style={{...(open && minimizedStyle)}}>
-            <LogoContainer onClick={setOpen}><div>logo</div></LogoContainer>
-            {!open ? <Navlist/> : <div style={{height: 40, width: 40, borderRadius: 999, backgroundColor: '#dddddd',cursor: 'pointer', textAlign: 'center'}} onClick={setOpen}>...</div>}
+        <SidebarContainer style={{...open && {width:'59px'}}}>
+            {/*<LogoContainer style={{...!open && {alignItems:'center',}}} onClick={setOpen}>
+                {!open ?<IoIosArrowBack style={{height: 30, width: 30}}/> : <IoIosArrowForward style={{height: 30, width: 30}} />}
+            </LogoContainer>*/}<div style={{height: 40,
+    width: 40,
+    marginBottom: 10,
+    marginTop: 10, 
+    textAlign: 'start', 
+    cursor: "pointer",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',}}/>
+    {!open ? <Navlist/> : <div></div>}
         </SidebarContainer>
     )
 }
