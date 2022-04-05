@@ -15,6 +15,7 @@ export default function Router() {
         { path: "/home", element: <Home /> },
         { path: "/restaurants", element: <Table /> },
         { path: "/restaurants/:restaurant_id", element: <RestuarantDetails /> },
+        { path: "/restaurants/page/:_page", element: <Table /> },
         { path: "/search", element: <Search /> },
       ],
     },

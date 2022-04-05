@@ -3,7 +3,7 @@ import { NavLink as RouterLink, matchPath, useLocation } from "react-router-dom"
 
 const data = [
     {title: 'Overview',path: '/home'},
-    {title: 'Browse',path: '/restaurants'},
+    {title: 'Browse',path: '/restaurants/page/1'},
     {title: 'search', path: '/search'}
 ]
 
@@ -44,6 +44,7 @@ export default function Navlist(){
     const {pathname} = useLocation();
     const match = path => path? !!matchPath({path, end: false},pathname) : false;
     return(<StyledUL>
+        {console.log(pathname)}
         {data.map((item)=> (
             <NavItem key={item.title} item={item} active={match}/>
         ))}

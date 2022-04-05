@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getData } from "../api/restaurants.api";
 import styled from "@emotion/styled";
 
-const Table_ = styled("table")({
+const StyledTable = styled("table")({
   width: "100%",
   backgroundColor: "white",
   WebkitBorderHorizontalSpacing: 0,
@@ -26,11 +26,13 @@ const StyledButton = styled("button")({
   backgroundColor: "wheat",
   marginLeft: 2,
   border: "none",
+  cursor: "pointer",
 });
 
 export default function Table() {
   const [r_data, set_r_Data] = useState("");
-  const [page, setPage] = useState(1);
+
+  const { _page } = useParams();
 
   let navigate = useNavigate();
 
@@ -38,24 +40,29 @@ export default function Table() {
     navigate(`/restaurants/${id}`);
   };
 
+  const handlePagination = (pageNo) => {
+    navigate(`/restaurants/page/${pageNo}`);
+  };
+
   const nextPage = () => {
-    setPage(page + 1);
+    handlePagination(parseInt(_page) + 1);
   };
 
   const prevPage = () => {
-    if (page > 1) {
-      setPage(page - 1);
+    if (parseInt(_page) > 1) {
+      handlePagination(parseInt(_page) - 1);
     }
   };
 
-  const getAllData = async (page = page, limit = 25) => {
+  const getAllData = async (page, limit) => {
     const res = await getData(page, limit);
     set_r_Data(res.data);
   };
 
   useEffect(() => {
-    getAllData(page, 25);
-  }, [page]);
+    getAllData(_page, 25);
+  }, [_page]);
+
   return (
     <div
       style={{
@@ -92,43 +99,51 @@ export default function Table() {
                 alignItems: "center",
               }}
             >
-              {page > 1 ? (
+              {parseInt(_page) > 1 ? (
                 <StyledButton onClick={() => prevPage()}>prev</StyledButton>
               ) : (
                 <StyledButton>...</StyledButton>
               )}
 
-              {page > 10 ? (
-                <StyledButton onClick={() => setPage(page - 10)}>
-                  {page - 10}
+              {parseInt(_page) > 10 ? (
+                <StyledButton
+                  onClick={() => handlePagination(parseInt(_page) - 10)}
+                >
+                  {parseInt(_page) - 10}
                 </StyledButton>
               ) : (
                 <StyledButton>...</StyledButton>
               )}
 
-              {page > 5 ? (
-                <StyledButton onClick={() => setPage(page - 5)}>
-                  {page - 5}
+              {parseInt(_page) > 5 ? (
+                <StyledButton
+                  onClick={() => handlePagination(parseInt(_page) - 5)}
+                >
+                  {parseInt(_page) - 5}
                 </StyledButton>
               ) : (
                 <StyledButton>...</StyledButton>
               )}
               <StyledButton
                 style={{ fontWeight: "bolder" }}
-                onClick={() => setPage(page + 0)}
+                onClick={() => handlePagination(parseInt(_page) + 0)}
               >
-                {page + 0}
+                {parseInt(_page) + 0}
               </StyledButton>
-              <StyledButton onClick={() => setPage(page + 5)}>
-                {page + 5}
+              <StyledButton
+                onClick={() => handlePagination(parseInt(_page) + 5)}
+              >
+                {parseInt(_page) + 5}
               </StyledButton>
-              <StyledButton onClick={() => setPage(page + 10)}>
-                {page + 10}
+              <StyledButton
+                onClick={() => handlePagination(parseInt(_page) + 10)}
+              >
+                {parseInt(_page) + 10}
               </StyledButton>
               <StyledButton onClick={() => nextPage()}>next</StyledButton>
             </div>
           </div>
-          <Table_>
+          <StyledTable>
             <tbody>
               <tr>
                 <td style={{ fontWeight: 600 }}>Restaurant ID</td>
@@ -150,7 +165,7 @@ export default function Table() {
                 );
               })}
             </tbody>
-          </Table_>{" "}
+          </StyledTable>
         </div>
       ) : (
         <div
