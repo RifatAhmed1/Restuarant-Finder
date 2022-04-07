@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getSearchData } from "../api/restaurants.api";
 import { useNavigate } from "react-router-dom";
 

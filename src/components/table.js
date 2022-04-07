@@ -29,6 +29,19 @@ const StyledButton = styled("button")({
   cursor: "pointer",
 });
 
+const StyledLoader = styled("div")({
+  height: "calc(100% - 60px)",
+  width: "100%",
+  paddingTop: 60,
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: 0,
+  justifyContent: "center",
+  paddingLeft: 20,
+  paddingRight: 60,
+  alignItems: "center",
+});
+
 export default function Table() {
   const [r_data, set_r_Data] = useState("");
 
@@ -168,19 +181,7 @@ export default function Table() {
           </StyledTable>
         </div>
       ) : (
-        <div
-          style={{
-            paddingTop: 60,
-            display: "flex",
-            flexDirection: "column",
-            flexGrow: 0,
-            justifyContent: "center",
-            paddingLeft: 20,
-            paddingRight: 60,
-          }}
-        >
-          loading...
-        </div>
+        <StyledLoader>loading...</StyledLoader>
       )}
     </div>
   );

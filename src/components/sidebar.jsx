@@ -1,9 +1,6 @@
 import styled from "@emotion/styled";
 import Navlist from "./navlist";
 import { IoIosArrowBack,IoIosArrowForward } from 'react-icons/io'
-import { motion } from "framer-motion";
-
-
 
 const SidebarContainer = styled('div')({
     height: '100vh', 
@@ -12,10 +9,8 @@ const SidebarContainer = styled('div')({
     display: 'flex', flexDirection:'column', 
     alignItems: 'center', 
     justifyItems: 'flex-start',
-    width: 259,
-    transitionDuration: '0.5s',
-    transitionProperty: 'width'
-
+    width: 239,
+    transition: 'all 0.5s linear',
 })
 
 const LogoContainer = styled('div')({
@@ -26,27 +21,22 @@ const LogoContainer = styled('div')({
     textAlign: 'start', 
     cursor: "pointer",
     display: 'flex',
+    alignSelf: 'flex-end',
+    marginRight: 10,
+    justifySelf: 'flex-start',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 999,
     backgroundColor: "wheat",
-
 })
+
 export default function Sidebar({open, setOpen}){    
     return(
         <SidebarContainer style={{...open && {width: 59}}}>
             <LogoContainer style={{alignItems:'center'}} onClick={setOpen}>
                 {!open ?<IoIosArrowBack style={{height: 30, width: 30}}/> : <IoIosArrowForward style={{height: 30, width: 30}} />}
-            </LogoContainer>{/*<div style={{height: 40,
-    width: 40,
-    marginBottom: 10,
-    marginTop: 10, 
-    textAlign: 'start', 
-    cursor: "pointer",
-    display: 'flex',
-    justifyContent: 'center',
-            alignItems: 'center',}}/>*/}
-    {!open ? <Navlist/> : <div></div>}
+            </LogoContainer>
+            {!open ? <Navlist/> : null}
         </SidebarContainer>
     )
 }

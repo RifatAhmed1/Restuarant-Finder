@@ -1,6 +1,6 @@
-import Layout from "./components/layout";
-import Navbar from "./components/navbar";
-import logo from "./logo.svg";
+//import Layout from "./components/layout";
+//import Navbar from "./components/navbar";
+//import logo from "./logo.svg";
 import Router from "./routes";
 //import './App.css';
 
