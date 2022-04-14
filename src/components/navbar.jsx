@@ -12,7 +12,7 @@ const StyledNavbarContainer = styled('div')({
     display: 'flex',
     flexDirection: 'row-reverse',
     alignItems: 'center',
-    transition: 'all 0.5s linear',
+    transition: 'all 0.2s ease-out',
     '& > div': {
         marginRight: 30, cursor: 'pointer'
     }

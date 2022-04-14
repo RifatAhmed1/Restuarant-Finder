@@ -1,52 +1,75 @@
 import styled from "@emotion/styled";
+import { Box, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { NavLink as RouterLink, matchPath, useLocation } from "react-router-dom";
+import {AiOutlineHome,AiOutlineSearch,AiOutlineFolder} from 'react-icons/ai'
 
+const iconStyle = { width: 24, height: 24};
 const data = [
-    {title: 'Overview',path: '/home'},
-    {title: 'Browse',path: '/restaurants/page/1'},
-    {title: 'search', path: '/search'}
+    {
+        title: 'Overview',
+        path: '/home',
+        icon: <AiOutlineHome style={iconStyle}/> },
+    {
+        title: 'Browse',
+        path: '/restaurants',
+        icon: <AiOutlineFolder style={iconStyle}/>
+    },
+    {
+        title: 'Search',
+        path: '/search', 
+        icon: <AiOutlineSearch style={iconStyle}/>
+    }
 ]
 
-const StyledRouterLink = styled((props)=>(<RouterLink {...props}/>))({
-    color: 'black', backgroundColor: 'inherit',textDecoration: 'none',transition: 'all 0.1s linear',
+const StyledListItem = styled((props)=>(<ListItemButton disableGutters {...props}/>))({
+    color: 'black', 
+    backgroundColor: 'inherit',
+    textDecoration: 'none',
+    transition: 'all 0.2s ease-in',
+    width: '100%',
+    paddingLeft: '1vw',
+    paddingRight: '1vw',
+    
 })
 
-const StyledUL = styled('ul')({
-    listStyle: 'none', 
-    display: 'flex', 
-    flexDirection: 'column', 
-    padding: '0px', 
-    justifyContent: 'center', 
-    alignItems: 'flex-start',
-    width: '100%',
-    margin: 0,
-    rowGap: 2
+const StyledListItemIcon = styled(ListItemIcon)({
+    width: 30,
+    height: 30,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'black'
 })
 
 function NavItem({item, active}){
     const isActiveRoot = active(item.path);
-    const {title, path} = item;
+    const {title, path, icon} = item;
+
+    const activeRootStyle = {fontWeight: 500, backgroundColor: 'wheat'}
 
     return (
-        <li style={{padding:'10px 10px 10px 60px',width: '100%', height: 25, backgroundColor: 'wheat'}}>
-            <StyledRouterLink 
-                style={{ ...isActiveRoot && {
-                    color: 'black',
-                    fontWeight: 900}}} 
-                to={path}>
-                    {title}
-            </StyledRouterLink>
-        </li>
+        <StyledListItem
+            key={title}
+            style={{...(isActiveRoot && activeRootStyle)}}
+            component={RouterLink}
+            to={path}
+        >   
+            <StyledListItemIcon>{icon && icon}</StyledListItemIcon>
+            <ListItemText disableTypography primary={title} />
+        </StyledListItem>
     )
 }
 
-export default function Navlist(){
+export default function Navlist({...other}){
     const {pathname} = useLocation();
     const match = path => path? !!matchPath({path, end: false},pathname) : false;
-    return(<StyledUL>
-        {console.log(pathname)}
-        {data.map((item)=> (
-            <NavItem key={item.title} item={item} active={match}/>
-        ))}
-    </StyledUL>)
+    return(
+        <Box {...other} sx={{width: '100%'}}>
+            <List disablePadding>
+                {data.map((item)=> (
+                    <NavItem key={item.title} item={item} active={match}/>
+                ))}
+            </List>
+        </Box>
+    )
 }
