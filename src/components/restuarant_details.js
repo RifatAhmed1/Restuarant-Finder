@@ -31,8 +31,8 @@ export default function RestuarantDetails() {
     setData(res.data);
   };
   useEffect(() => {
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     getRestaurantDetails(_restaurant_id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_restaurant_id]);
 
   useEffect(() => {
@@ -40,6 +40,7 @@ export default function RestuarantDetails() {
     if (__data) {
       setData(JSON.parse(__data));
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
