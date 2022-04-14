@@ -52,7 +52,7 @@ const StyledLoader = styled('div')({
 
 export default function Table() {
   const [loading, setLoading] = useState(true);
-  const [r_data, set_r_Data] = useState([]);
+  const [r_data, set_r_Data] = useState('');
   const [_page, setPage] = useState(1);
 
   let navigate = useNavigate();
@@ -114,7 +114,7 @@ export default function Table() {
     if (_p) {
       setPage(JSON.parse(_p));
     }
-    const _d = sessionStorage.getItem(`table_data_${_page}`);
+    const _d = sessionStorage.getItem(`table_data_${JSON.parse(_p)}`);
     if (_d) {
       set_r_Data(JSON.parse(_d));
       setLoading(false);
@@ -124,9 +124,7 @@ export default function Table() {
   }, []);
 
   useEffect(() => {
-    if (r_data.length !== 0) {
-      sessionStorage.setItem(`table_data_${_page}`, JSON.stringify(r_data));
-    }
+    sessionStorage.setItem(`table_data_${_page}`, JSON.stringify(r_data));
     sessionStorage.setItem(`pageId_${_page}`, JSON.stringify(_page));
     sessionStorage.setItem('page', JSON.stringify(_page));
   });
@@ -199,16 +197,17 @@ export default function Table() {
                 <td style={{ fontWeight: 600 }}>Borough</td>
                 <td style={{ fontWeight: 600 }}>Cuisine</td>
               </tr>
-              {r_data.map((item) => {
-                return (
-                  <tr key={item.restaurant_id} onClick={() => handletrClick(item.restaurant_id)}>
-                    <td>{item.restaurant_id}</td>
-                    <td>{item.name}</td>
-                    <td>{item.borough}</td>
-                    <td>{item.cuisine}</td>
-                  </tr>
-                );
-              })}
+              {r_data !== '' &&
+                r_data.map((item) => {
+                  return (
+                    <tr key={item.restaurant_id} onClick={() => handletrClick(item.restaurant_id)}>
+                      <td>{item.restaurant_id}</td>
+                      <td>{item.name}</td>
+                      <td>{item.borough}</td>
+                      <td>{item.cuisine}</td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </StyledTable>
         </div>
