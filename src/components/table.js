@@ -72,9 +72,9 @@ export default function Table() {
     const _d = sessionStorage.getItem(`table_data_${_page + 1}`);
     const _p = sessionStorage.getItem(`pageId_${_page + 1}`);
 
-    if (_d && _p) {
-      set_r_Data(JSON.parse(_d));
+    if (_d && JSON.parse(_d) !== '') {
       setPage(JSON.parse(_p));
+      set_r_Data(JSON.parse(_d));
     } else {
       setLoading(true);
       getAllData(_page + 1, 25);
@@ -85,9 +85,9 @@ export default function Table() {
     setPage(_page + n);
     const _d = sessionStorage.getItem(`table_data_${_page + n}`);
     const _p = sessionStorage.getItem(`pageId_${_page + n}`);
-    if (_d && _p) {
-      set_r_Data(JSON.parse(_d));
+    if (_d && JSON.parse(_d) !== '') {
       setPage(JSON.parse(_p));
+      set_r_Data(JSON.parse(_d));
     } else {
       setLoading(true);
       getAllData(_page + n, 25);
@@ -95,17 +95,15 @@ export default function Table() {
   };
 
   const prevPage = () => {
-    if (_page > 1) {
-      setPage(_page - 1);
-      const _d = sessionStorage.getItem(`table_data_${_page - 1}`);
-      const _p = sessionStorage.getItem(`pageId_${_page - 1}`);
-      if (_d && _p) {
-        set_r_Data(JSON.parse(_d));
-        setPage(JSON.parse(_p));
-      } else {
-        setLoading(true);
-        getAllData(_page - 1, 25);
-      }
+    setPage(_page - 1);
+    const _d = sessionStorage.getItem(`table_data_${_page - 1}`);
+    const _p = sessionStorage.getItem(`pageId_${_page - 1}`);
+    if (_d && JSON.parse(_d) !== '') {
+      setPage(JSON.parse(_p));
+      set_r_Data(JSON.parse(_d));
+    } else {
+      setLoading(true);
+      getAllData(_page - 1, 25);
     }
   };
   //---------------------------------------------
@@ -114,13 +112,15 @@ export default function Table() {
     if (_p) {
       setPage(JSON.parse(_p));
     }
-    const _d = sessionStorage.getItem(`table_data_${JSON.parse(_p)}`);
-    if (_d !== '') {
+
+    const _d = sessionStorage.getItem(`table_data_${_page}`);
+    if (_d && JSON.parse(_d) !== '') {
       set_r_Data(JSON.parse(_d));
       setLoading(false);
     } else {
       getAllData(_page, 25);
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
