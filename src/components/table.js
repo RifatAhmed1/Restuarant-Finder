@@ -115,7 +115,7 @@ export default function Table() {
       setPage(JSON.parse(_p));
     }
     const _d = sessionStorage.getItem(`table_data_${JSON.parse(_p)}`);
-    if (_d) {
+    if (_d !== '') {
       set_r_Data(JSON.parse(_d));
       setLoading(false);
     } else {
